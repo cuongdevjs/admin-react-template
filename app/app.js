@@ -15,10 +15,11 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import FontFaceObserver from 'fontfaceobserver';
 import history from 'utils/history';
-import 'sanitize.css/sanitize.css';
 
 // Import root app
 import App from 'containers/App';
+
+import '!!style-loader!css-loader!./assets/fontawesome-pro-5.11.1-web/css/all.min.css';
 
 // Import Language Provider
 import LanguageProvider from 'containers/LanguageProvider';
@@ -34,7 +35,7 @@ import { translationMessages } from './i18n';
 
 // Observe loading of Open Sans (to remove open sans, remove the <link> tag in
 // the index.html file and this observer)
-const openSansObserver = new FontFaceObserver('Open Sans', {});
+const openSansObserver = new FontFaceObserver('Roboto', {});
 
 // When Open Sans is loaded, add a font-family using Open Sans to the body
 openSansObserver.load().then(() => {
@@ -78,6 +79,7 @@ if (!window.Intl) {
       Promise.all([
         import('intl/locale-data/jsonp/en.js'),
         import('intl/locale-data/jsonp/de.js'),
+        import('intl/locale-data/jsonp/vi.js'),
       ]),
     ) // eslint-disable-line prettier/prettier
     .then(() => render(translationMessages))

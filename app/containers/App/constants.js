@@ -9,6 +9,9 @@
  * export const YOUR_ACTION_CONSTANT = 'yourproject/YourContainer/YOUR_ACTION_CONSTANT';
  */
 
-export const LOAD_REPOS = 'boilerplate/App/LOAD_REPOS';
-export const LOAD_REPOS_SUCCESS = 'boilerplate/App/LOAD_REPOS_SUCCESS';
-export const LOAD_REPOS_ERROR = 'boilerplate/App/LOAD_REPOS_ERROR';
+export const PREFIX_CONSTANTS = 'boilerplate';
+
+export const LOAD_ING = `${PREFIX_CONSTANTS}/App/LOAD_ING`;
+export const LOAD_SUCCESS = `${PREFIX_CONSTANTS}/App/LOAD_SUCCESS`;
+export const LOAD_ERROR = `${PREFIX_CONSTANTS}/App/LOAD_ERROR`;
+export const CHANGE_IS_LOGGED = `${PREFIX_CONSTANTS}/App/CHANGE_IS_LOGGED`;

@@ -1,4 +1,15 @@
 {
+  "app.containers.Header.settingTextConfig": "Config",
+  "app.containers.Header.settingTextLogout": "Logout",
+  "app.containers.Layout.menuTongQuan": "Dashboard",
+  "app.containers.Layout.menuTaiNguyen": "Assets",
+  "app.containers.Layout.menuDiaDiem": "Locations",
+  "app.containers.Layout.menuLoaiHinh": "Types",
+  "app.containers.Layout.menuNguoiDung": "User",
+  "app.containers.Login.fieldEmail": "",
+  "app.containers.Login.fieldPassword": "",
+  "app.containers.Login.textBtnLogin": "",
+  "app.containers.Login.title": "",
   "boilerplate.components.Footer.author.message": "Mit Liebe gemacht von {author}.",
   "boilerplate.components.Footer.license.message": "Dieses Projekt wird unter der MIT-Lizenz veröffentlicht.",
   "boilerplate.components.Header.features": "",
@@ -25,7 +36,8 @@
   "boilerplate.containers.HomePage.tryme.atPrefix": "",
   "boilerplate.containers.HomePage.tryme.header": "Probiere mich!",
   "boilerplate.containers.HomePage.tryme.message": "Zeige die Github Repositories von",
-  "boilerplate.containers.LocaleToggle.de": "",
-  "boilerplate.containers.LocaleToggle.en": "",
+  "boilerplate.containers.LocaleToggle.de": "Deutsch",
+  "boilerplate.containers.LocaleToggle.en": "English",
+  "boilerplate.containers.LocaleToggle.vi": "Vietnamese",
   "boilerplate.containers.NotFoundPage.header": "Seite nicht gefunden."
 }
