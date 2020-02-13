@@ -9,17 +9,21 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import { push } from 'connected-react-router';
-
 import { useInjectReducer } from 'utils/injectReducer';
-import { changeCollapseMenu } from 'containers/Layout/actions';
-import { HeaderWrapper, HeaderUser } from './index.css';
-import reducer from './reducer';
-import Hamburger from '../../components/Hamburger';
-import IconAwesome from '../../components/Icon';
-import Avatar from '../../components/Avatar';
+// component
+import Hamburger from 'components/Hamburger/Loadable';
+import IconAwesome from 'components/Icon/Loadable';
+import Avatar from 'components/Avatar/Loadable';
 import PopoverNotification from './components/PopoverNotification';
 import PopoverUser from './components/PopoverUser';
+// state & action
+import { makeSelectUser } from '../App/selectors';
+import { changeCollapseMenu } from '../Layout/actions';
+import { logoutRequest } from '../Login/actions';
+// css
+import { HeaderWrapper, HeaderUser } from './index.css';
+// config
+import reducer from './reducer';
 
 function Header(props) {
   useInjectReducer({ key: 'header', reducer });
@@ -33,12 +37,11 @@ function Header(props) {
         <PopoverNotification>
           <IconAwesome className="fad fa-bell" />
         </PopoverNotification>
-        <PopoverUser
-          logout={() => {
-            props.logout();
-          }}
-        >
-          <Avatar className="user" text="Nguyen Manh Cuong" />
+        <PopoverUser logout={() => props.logout()}>
+          <Avatar
+            className="user"
+            text={props.infoUser ? props.infoUser.name : '---'}
+          />
         </PopoverUser>
       </HeaderUser>
     </HeaderWrapper>
@@ -46,17 +49,20 @@ function Header(props) {
 }
 
 Header.propTypes = {
+  infoUser: PropTypes.object,
   isCollapseMenu: PropTypes.bool,
   changeCollapseMenu: PropTypes.func,
   logout: PropTypes.func,
 };
 
-const mapStateToProps = createStructuredSelector({});
+const mapStateToProps = createStructuredSelector({
+  infoUser: makeSelectUser(),
+});
 
 function mapDispatchToProps(dispatch) {
   return {
     changeCollapseMenu: isCollapse => dispatch(changeCollapseMenu(isCollapse)),
-    logout: () => dispatch(push('/login')),
+    logout: () => dispatch(logoutRequest()),
   };
 }
 const withConnect = connect(

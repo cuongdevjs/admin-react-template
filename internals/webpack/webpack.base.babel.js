@@ -113,6 +113,7 @@ module.exports = options => ({
     // drop any unreachable code.
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'development',
+      API_URL: 'http://149.28.149.178/wp-json/',
     }),
   ]),
   resolve: {

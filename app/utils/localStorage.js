@@ -1,15 +1,11 @@
-export function getItem(key) {
-  return localStorage.getItem(key);
-}
+const getItem = key => localStorage.getItem(key);
 
-export function saveItem(key, value) {
-  if (key && value) localStorage.saveItem(key, value);
-}
+const setItem = (key, value) => {
+  if (key && value) localStorage.setItem(key, value);
+};
 
-export function removeItem(key) {
-  localStorage.removeItem(key);
-}
+const removeItem = key => localStorage.removeItem(key);
 
-export function clearAllLS() {
-  localStorage.clear();
-}
+const clearAllLS = () => localStorage.clear();
+
+export { getItem, setItem, removeItem, clearAllLS };

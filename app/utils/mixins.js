@@ -1,4 +1,5 @@
 import { notification, message, Modal } from 'antd';
+import history from './history';
 const { confirm } = Modal;
 
 export function uid() {
@@ -83,7 +84,7 @@ export function openConfirmPopup(title, content, cbOk, cbCancel) {
   });
 }
 
-export function formatAntFormToObject(form) {
+export function formatFormAntToObject(form) {
   const obj = {};
   Object.entries(form).forEach(([key, value]) => {
     obj[key] = value.value;
@@ -91,19 +92,23 @@ export function formatAntFormToObject(form) {
   return obj;
 }
 
-export const formatObjToFormAntd (form){
-  const obj= {};
+export function formatObjectToFormAntd(form) {
+  const obj = {};
   Object.entries(form).forEach(([key, value]) => {
     obj[key] = { value };
   });
   return obj;
-};
+}
 
-export function notiErrorFormAnt (err)  {
-  err &&
-    Object.values(err).forEach(errs => {
-      errs.errors.forEach(err  => {
+export function notiErrorFormAnt(errors) {
+  errors &&
+    Object.values(errors).forEach(errs => {
+      errs.errors.forEach(err => {
         openMessageWithIcon('error', `${err.field}: ${err.message}`, 2.5);
       });
     });
-};
+}
+
+export function historyPush(location) {
+  history.push(location);
+}

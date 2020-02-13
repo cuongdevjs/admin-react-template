@@ -5,27 +5,29 @@
  */
 
 import {
-  FAKE_ASYNC_LOADS,
-  FAKE_ASYNC_LOADED,
-  FAKE_ASYNC_LOAD_ERR,
+  LOGIN_REQUEST,
+  LOGOUT_REQUEST,
+  REQUEST_FAIL,
+  REQUEST_SUCCESS,
+  RESET_STATE,
 } from './constants';
 
-export function fakeAsyncLoads() {
-  return {
-    type: FAKE_ASYNC_LOADS,
-  };
+export function loginRequest(username, password) {
+  return { type: LOGIN_REQUEST, username, password };
 }
 
-export function fakeAsyncLoaded(payload) {
-  return {
-    type: FAKE_ASYNC_LOADED,
-    payload,
-  };
+export function logoutRequest() {
+  return { type: LOGOUT_REQUEST };
 }
 
-export function fakeAsyncLoadErr(payload) {
-  return {
-    type: FAKE_ASYNC_LOAD_ERR,
-    payload,
-  };
+export function requestFail() {
+  return { type: REQUEST_FAIL };
+}
+
+export function requestSuccess() {
+  return { type: REQUEST_SUCCESS };
+}
+
+export function resetState() {
+  return { type: RESET_STATE };
 }

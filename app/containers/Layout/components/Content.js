@@ -1,10 +1,9 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-// import PropTypes from 'prop-types';
 
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
-import Dashboard from '../../Dashboard/Loadable';
-import AssetsPage from '../../AssetsPage/Loadable';
+import Dashboard from 'containers/Dashboard/Loadable';
+import AssetsPage from 'containers/AssetsPage/Loadable';
 
 const Content = () => (
   <Switch>

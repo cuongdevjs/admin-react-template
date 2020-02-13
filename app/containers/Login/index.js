@@ -11,31 +11,30 @@ import { Helmet } from 'react-helmet';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
-import history from 'utils/history';
-import { useInjectSaga } from 'utils/injectSaga';
+// import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
+import { formatFormAntToObject } from 'utils/mixins';
 import { LoginWrapper } from './index.css';
 import {
-  makeSelectResult,
-  makeSelectActionLoads,
-  makeSelectActionLoaded,
+  makeSelectActionLoading,
+  makeSelectActionSuccess,
   makeSelectActionError,
 } from './selectors';
 import reducer from './reducer';
-import saga from './saga';
+import { loginRequest } from './actions';
+// import saga from './saga';
 import Background from './components/Background';
 import FormContainer from './components/Form';
 import LocaleToggle from '../LocaleToggle';
-import { fakeAsyncLoads } from './actions';
 
 export function Login(props) {
   useInjectReducer({ key: 'login', reducer });
-  useInjectSaga({ key: 'login', saga });
+  // useInjectSaga({ key: 'login', saga });
 
   const formRef = React.useRef();
   const [formLogin, setFormLogin] = React.useState({
-    email: { value: 'nguyenmanhcuong.stf@gmail.com' },
-    password: { value: '122423536' },
+    email: { value: 'bantimdo' },
+    password: { value: '123456' },
   });
 
   return (
@@ -44,20 +43,15 @@ export function Login(props) {
         <title>Login</title>
         <meta name="description" content="Description of Login" />
       </Helmet>
-      {props.loading}
-      {props.success}
-      {props.error}
-      {JSON.stringify(props.result)}
       <Background>
         <LocaleToggle />
       </Background>
       <FormContainer
         ref={formRef}
         {...formLogin}
-        handleSubmit={() => {
-          props.submitFakeAsyncAction();
-          // history.push('/home');
-        }}
+        handleSubmit={() =>
+          props.loginRequest(formLogin.email.value, formLogin.password.value)
+        }
         onChange={fieldChange => setFormLogin({ ...formLogin, ...fieldChange })}
       />
     </LoginWrapper>
@@ -65,23 +59,22 @@ export function Login(props) {
 }
 
 Login.propTypes = {
-  result: PropTypes.arrayOf(PropTypes.object),
-  loading: PropTypes.bool,
-  success: PropTypes.bool,
-  error: PropTypes.bool,
-  submitFakeAsyncAction: PropTypes.func,
+  isLoading: PropTypes.bool,
+  isSuccess: PropTypes.bool,
+  isError: PropTypes.bool,
+  loginRequest: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
-  result: makeSelectResult(),
-  loading: makeSelectActionLoads(),
-  success: makeSelectActionLoaded(),
-  error: makeSelectActionError(),
+  isLoading: makeSelectActionLoading(),
+  isSuccess: makeSelectActionSuccess(),
+  isError: makeSelectActionError(),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
-    submitFakeAsyncAction: () => dispatch(fakeAsyncLoads()),
+    loginRequest: (username, password) =>
+      dispatch(loginRequest(username, password)),
   };
 }
 

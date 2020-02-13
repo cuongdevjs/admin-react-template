@@ -7,18 +7,12 @@ import { initialState } from './reducer';
 
 const selectLoginState = state => state.login || initialState;
 
-const makeSelectResult = () =>
-  createSelector(
-    selectLoginState,
-    state => state.resultFakeAction,
-  );
-
-const makeSelectActionLoads = () =>
+const makeSelectActionLoading = () =>
   createSelector(
     selectLoginState,
     state => state.loading,
   );
-const makeSelectActionLoaded = () =>
+const makeSelectActionSuccess = () =>
   createSelector(
     selectLoginState,
     state => state.success,
@@ -30,8 +24,7 @@ const makeSelectActionError = () =>
   );
 
 export {
-  makeSelectResult,
-  makeSelectActionLoads,
-  makeSelectActionLoaded,
+  makeSelectActionLoading,
+  makeSelectActionSuccess,
   makeSelectActionError,
 };

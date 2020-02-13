@@ -8,30 +8,37 @@
 
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import { Switch, Route, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import Layout from 'containers/Layout/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Login from 'containers/Login/Loadable';
 import history from 'utils/history';
-import GlobalStyle from '../../global-styles';
 
 import 'antd/dist/antd.css';
 import 'sanitize.css/sanitize.css';
-import { getItem } from '../../utils/localStorage';
 import './index.css';
+import 'utils/request';
+import { useInjectSaga } from 'utils/injectSaga';
+import { useInjectReducer } from 'utils/injectReducer';
+import GlobalStyle from '../../global-styles';
 
-const AppWrapper = styled.div`
-  max-width: 100%;
-  margin: 0 auto;
-  display: flex;
-  min-height: 100%;
-  padding: 0;
-  flex-direction: column;
-  height: 100vh;
-  font-size: 14px;
-`;
+import { getItem } from '../../utils/localStorage';
+import {
+  makeSelectActionError,
+  makeSelectActionLoading,
+  makeSelectActionSuccess,
+} from '../Login/selectors';
+import { loginRequest } from '../Login/actions';
+
+import { AppWrapper } from './index.css.js';
+import saga from './saga';
+import reducer from './reducer';
+import { getInfoUser, changeIsLogged } from './actions';
+import { createStructuredSelector } from 'reselect';
+import { makeSelectIsLogged } from './selectors';
 
 function redirect(location) {
   return class extends React.Component {
@@ -46,20 +53,29 @@ function redirect(location) {
   };
 }
 
-function App() {
+function App(props) {
+  useInjectSaga({ key: 'app', saga });
+  useInjectReducer({ key: 'app', reducer });
+
   React.useEffect(() => {
     const token = getItem('danang-admin-token');
-    if (token) history.push('/login');
-  }, []);
+    token
+      ? !props.isLogged
+        ? props.changeIsLogged(true)
+        : props.getInfoUser()
+      : history.push('/login');
+  }, [props.isLogged]);
 
   const routeOnlyUser = comp => {
     const token = getItem('danang-admin-token');
-    return !token ? comp : redirect('/login');
+    return token ? comp : redirect('/login');
+    return comp;
   };
 
   const routeOnlyGuest = comp => {
     const token = getItem('danang-admin-token');
     return !token ? comp : redirect('/');
+    return comp;
   };
 
   return (
@@ -78,4 +94,24 @@ function App() {
   );
 }
 
-export default App;
+App.propTypes = {
+  isLogged: PropTypes.bool,
+  getInfoUser: PropTypes.func,
+  changeIsLogged: PropTypes.func,
+};
+
+const mapStateToProps = createStructuredSelector({
+  isLogged: makeSelectIsLogged(),
+});
+
+function mapDispatchToProps(dispatch) {
+  return {
+    getInfoUser: () => dispatch(getInfoUser()),
+    changeIsLogged: status => dispatch(changeIsLogged(status)),
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(App);

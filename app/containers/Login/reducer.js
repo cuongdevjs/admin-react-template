@@ -5,13 +5,14 @@
  */
 import produce from 'immer';
 import {
-  FAKE_ASYNC_LOADS,
-  FAKE_ASYNC_LOADED,
-  FAKE_ASYNC_LOAD_ERR,
+  LOGIN_REQUEST,
+  LOGOUT_REQUEST,
+  REQUEST_FAIL,
+  REQUEST_SUCCESS,
+  RESET_STATE,
 } from './constants';
 
 export const initialState = {
-  resultFakeAction: [],
   loading: false,
   success: false,
   error: false,
@@ -21,21 +22,28 @@ export const initialState = {
 const loginReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
-      case FAKE_ASYNC_LOADS:
+      case LOGIN_REQUEST:
         draft.success = false;
         draft.loading = true;
         draft.error = false;
         break;
-      case FAKE_ASYNC_LOADED:
-        draft.resultFakeAction = action.payload;
+      case LOGOUT_REQUEST:
+        draft.success = false;
+        draft.loading = false;
+        draft.error = false;
+        break;
+      case REQUEST_FAIL:
+        draft.success = false;
+        draft.loading = false;
+        draft.error = true;
+        break;
+      case REQUEST_SUCCESS:
         draft.success = true;
         draft.loading = false;
         draft.error = false;
         break;
-      case FAKE_ASYNC_LOAD_ERR:
-        draft.success = false;
-        draft.loading = false;
-        draft.error = true;
+      case RESET_STATE:
+        draft = initialState;
         break;
     }
   });
