@@ -68,7 +68,7 @@
     "antd": "^3.26.9",
     "axios": "^0.19.2",
     "chalk": "^2.4.2",
-    "compression": "1.7.4",
+    "compression": "1.8.1",
     "connected-react-router": "6.4.0",
     "cross-env": "5.2.0",
     "express": "4.16.4",
